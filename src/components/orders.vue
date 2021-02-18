@@ -10,7 +10,7 @@
 
     <h1>banana</h1>
     <p>配料</p>
-    <div v-for="fav in favor" v-bind:value="fav.eng" v-bind:key="fav.chi">
+    <div v-for="fav in favorList" v-bind:value="fav.eng" v-bind:key="fav.chi">
       <input type="checkbox" v-model="picked_favor" v-bind:value="fav.chi" v-bind:key="fav.chi" @change="updateText">
       <label for="">{{ fav.chi }} </label>
     </div>
@@ -25,17 +25,19 @@ export default {
   name: "",
   props: {
     test: {type: String, require: true},
-    totalPageData: {type: Array}
+    totalPageData: {type: Array},
+    applecount: {type: Number},
+    favor: {type: Array}
   },
   data: function () {
     return {
-      picked_favor: [],
-      favor: [{chi: "巧克力醬", eng: "chocolate"}, {chi: "草莓醬", eng: "strawberry"}, {chi: "胡麻醬", eng: "flax"},
+      picked_favor: this.favor,
+      favorList: [{chi: "巧克力醬", eng: "chocolate"}, {chi: "草莓醬", eng: "strawberry"}, {chi: "胡麻醬", eng: "flax"},
         {chi: "味曾", eng: "miso"}, {chi: "辣椒", eng: "chili"}, {chi: "大蒜", eng: "garlic"}, {
           chi: "醬油",
           eng: "soy_sauce"
         }, {chi: "醬油膏", eng: "thick_soy_sauce"}, {chi: "百草膏", eng: "herbal_cream"}],
-      apple_count: 1
+      apple_count: this.applecount
     }
   },
   methods: {

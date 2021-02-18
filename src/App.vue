@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-<!--    <p>text={{ test }}</p>-->
+    <!--    <p>text={{ test }}</p>-->
     <!--    下拉選單跟顯示第幾頁-->
     form-{{ formName }}
     <br>
-    跳至
-    <select>
-      <option v-for="data in totalPageData" v-bind:value="data.value">
+    跳至 -|{{ selected }}|-
+    <select v-model="selected" v-on:change="changePage">
+      <option v-for="data in totalPageData" v-bind:value="data.id" v-bind:key="data.id">
         {{ data.id }}
       </option>
     </select>
@@ -44,8 +44,9 @@
 import personal_info from "@/components/personal_info";
 import result from "@/components/result";
 import orders from "@/components/orders";
-const baseid = "A01";
-const basedata={"id": baseid, personal_info: {}, orders: {}};
+
+const id = "A01";
+const basedata = {"id": id, personal_info: {}, orders: {}};
 export default {
   name: 'App',
   components: {
@@ -53,21 +54,23 @@ export default {
   },
   data() {
     return {
-      ID:'',
-      totalPageData: [basedata,{"id": 'A02', personal_info: {}, orders: {}}],//放所有資料
+      ID: id,
+      totalPageData: [basedata, {"id": 'A02', personal_info: {}, orders: {}}],//放所有資料
       DataFormat: {"id": '', personal_info: {}, orders: {}},//資料格式
-      data_Now: basedata,//現在的所有資料
+      data_Now: basedata,//現在的所有資料,一開始先給空的
       message: 'hello',
       formName: '',
       view: '',
       test: "test!!!!!!",
       name: '', //從personal_info傳過來的 借放
-      applecount: 0,//幾顆蘋果
-      favor: []//幾種口味
+      applecount: 1,//幾顆蘋果
+      favor: [],//幾種口味
+      selected: ''//選擇的葉千
     }
   },
   mounted: function () {
     this.$data.formName = this.$data.data_Now.id;
+    this.selected = this.formName;
   },
   methods: {
     logForm: function () {
@@ -97,6 +100,21 @@ export default {
         return "unknown"
       } else {
         return name
+      }
+    },
+    changePage: function () { //換頁籤的時候要做的事情
+      this.formName = this.selected; //改頁籤顯示
+      //先把當前寫的都儲存到totalpage對應的id裡面
+      this.storeToTotalPage();
+      //接著得把所有頁面換成選中的id的json數據組
+
+    },
+    storeToTotalPage: function () {//儲存到總數據
+      for (var i = 0; i < this.totalPageData.length; i++) {
+        if (id === this.totalPageData[i].id) {//對應到了
+          this.totalPageData[i] = this.data_Now;//存進去
+          alert(JSON.stringify(this.totalPageData));
+        }
       }
     }
   }

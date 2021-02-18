@@ -1,7 +1,7 @@
 <template>
   <div>
     以下是{{ test}}的訂單
-    {{applecount}}顆貧果,
+    {{applecount.toString()}}顆貧果,
     <br>
     香蕉配料
     <ul class="nav">
@@ -10,7 +10,7 @@
       </li>
     </ul>
 
-    <button v-on:click="printDataNOW" style="height: 30px;width: 50px">show目前data</button>
+    <button v-on:click="printDataNOW" style="height: 50px;width: 155px">show目前data</button>
   </div>
 </template>
 
@@ -18,7 +18,7 @@
 export default {
   props: {
     test: {type: String,require:true},
-    applecount:{type:String},
+    applecount:{type:Number},
     favor:{type:Array},
     data_Now:{type:String}
   },
